@@ -1,3 +1,4 @@
+import { Header } from './components/Header/Header';
 import { GlobalStyles } from './GlobalStyles';
 import { Container } from './UI/Container/Container';
 
@@ -6,7 +7,7 @@ export const App = () => {
     <>
       <GlobalStyles />
       <Container>
-        <h1>Weather App</h1>
+        <Header />
       </Container>
     </>
   );
