@@ -5,7 +5,7 @@ interface ContainerProps {
 }
 
 const Wrapper = styled.main`
-  width: 1200px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 0 20px;
 `;
