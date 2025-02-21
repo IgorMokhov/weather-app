@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 import iconSearch from '../../assets/icons/icon-search.svg';
 import { ChangeEvent, FormEvent, useState } from 'react';
+import { getCityGeoData, getWeatherForecast } from '../../api/weatherApi';
+import { filterDailyForecast } from '../../utils/weatherUtils';
 
 const StyledForm = styled.form`
   position: relative;
@@ -35,13 +37,20 @@ const StyledImage = styled.img`
 export const Form = () => {
   const [search, setSearch] = useState<string>('');
 
-  const onSubmitHandler = (e: FormEvent<HTMLFormElement>) => {
+  const onSubmitHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!search.trim()) return;
 
-    if (search.trim()) {
-      console.log(search);
-      setSearch('');
+    try {
+      const coordinates = await getCityGeoData(search);
+      const weather = await getWeatherForecast(coordinates);
+      const filteredWeather = filterDailyForecast(weather);
+      console.log(filteredWeather);
+    } catch (error) {
+      console.log(error);
     }
+
+    setSearch('');
   };
 
   return (
