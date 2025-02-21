@@ -22,3 +22,15 @@ export interface IWeatherForecast {
   };
   list: IWeatherData[];
 }
+
+export interface IChartWeatherData {
+  city: string;
+  list: {
+    time: string;
+    temp: number;
+    humidity: number;
+    pressure: number;
+    windTemp: number;
+    windSpeed: number;
+  }[];
+}
