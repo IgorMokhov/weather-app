@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { ICityGeoData, IWeatherForecast } from '../types/wheather';
+import { ICityGeoData, IWeatherForecast } from '../types/weather';
 
 const BASE_URL = 'http://api.openweathermap.org';
 const API_KEY = import.meta.env.VITE_OPENWEATHER_API_KEY;
