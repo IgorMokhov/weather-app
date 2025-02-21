@@ -35,12 +35,21 @@ const StyledImage = styled.img`
   height: 40px;
 `;
 
+const StyledError = styled.p`
+  color: tomato;
+  position: absolute;
+  top: 70px;
+  left: 100px;
+`;
+
 interface IFormProps {
   saveWeatherForecast: (weatherForecast: IWeatherForecast) => void;
 }
 
 export const Form = ({ saveWeatherForecast }: IFormProps) => {
   const [search, setSearch] = useState<string>('');
+  const [error, setError] = useState<string | null>(null);
+  console.log(error);
 
   const onSubmitHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -51,8 +60,13 @@ export const Form = ({ saveWeatherForecast }: IFormProps) => {
       const weather = await getWeatherForecast(coordinates);
       const filteredWeather = filterDailyForecast(weather);
       saveWeatherForecast(filteredWeather);
+      setError(null);
     } catch (error) {
-      console.log(error);
+      if (error instanceof Error) {
+        setError(error.message);
+      } else {
+        setError('An unknown error occurred');
+      }
     }
 
     setSearch('');
@@ -73,6 +87,7 @@ export const Form = ({ saveWeatherForecast }: IFormProps) => {
           setSearch(e.target.value)
         }
       />
+      {error && <StyledError>{error}</StyledError>}
     </StyledForm>
   );
 };
