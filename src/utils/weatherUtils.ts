@@ -1,4 +1,8 @@
-import { IWeatherForecast, IWeatherData } from '../types/wheather';
+import {
+  IWeatherForecast,
+  IWeatherData,
+  IChartWeatherData,
+} from '../types/weather';
 
 export const filterDailyForecast = (
   weatherData: IWeatherForecast
@@ -19,5 +23,23 @@ export const filterDailyForecast = (
   return {
     ...weatherData,
     list: filteredList,
+  };
+};
+
+export const processWeatherData = (
+  weather: IWeatherForecast | null
+): IChartWeatherData => {
+  if (!weather) return { city: '', list: [] };
+
+  return {
+    city: weather?.city.name,
+    list: weather?.list.map(({ main, wind, dt_txt }) => ({
+      time: dt_txt.split(' ')[0],
+      temp: main.temp,
+      humidity: main.humidity,
+      pressure: main.pressure,
+      windTemp: wind.deg,
+      windSpeed: wind.speed,
+    })),
   };
 };
