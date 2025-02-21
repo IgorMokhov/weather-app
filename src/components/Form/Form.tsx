@@ -3,10 +3,11 @@ import iconSearch from '../../assets/icons/icon-search.svg';
 import { ChangeEvent, FormEvent, useState } from 'react';
 import { getCityGeoData, getWeatherForecast } from '../../api/weatherApi';
 import { filterDailyForecast } from '../../utils/weatherUtils';
+import { IWeatherForecast } from '../../types/weather';
 
 const StyledForm = styled.form`
   position: relative;
-  margin: 0 auto;
+  margin: 0 auto 70px;
   max-width: 750px;
 `;
 
@@ -34,7 +35,11 @@ const StyledImage = styled.img`
   height: 40px;
 `;
 
-export const Form = () => {
+interface IFormProps {
+  saveWeatherForecast: (weatherForecast: IWeatherForecast) => void;
+}
+
+export const Form = ({ saveWeatherForecast }: IFormProps) => {
   const [search, setSearch] = useState<string>('');
 
   const onSubmitHandler = async (e: FormEvent<HTMLFormElement>) => {
@@ -45,7 +50,7 @@ export const Form = () => {
       const coordinates = await getCityGeoData(search);
       const weather = await getWeatherForecast(coordinates);
       const filteredWeather = filterDailyForecast(weather);
-      console.log(filteredWeather);
+      saveWeatherForecast(filteredWeather);
     } catch (error) {
       console.log(error);
     }
