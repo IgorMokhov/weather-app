@@ -49,7 +49,6 @@ interface IFormProps {
 export const Form = ({ saveWeatherForecast }: IFormProps) => {
   const [search, setSearch] = useState<string>('');
   const [error, setError] = useState<string | null>(null);
-  console.log(error);
 
   const onSubmitHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
