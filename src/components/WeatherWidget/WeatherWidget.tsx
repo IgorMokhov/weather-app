@@ -1,7 +1,11 @@
 import styled from 'styled-components';
 import { Form } from '../Form/Form';
 import { useState } from 'react';
-import { IWeatherForecast, WeatherFilters } from '../../types/weather';
+import {
+  IWeatherForecast,
+  WeatherFilters,
+  WeatherTimeRange,
+} from '../../types/weather';
 import { WeatherChart } from '../WeatherChart/WeatherChart';
 import { WeatherControls } from '../WeatherControls/WeatherControls';
 
@@ -23,6 +27,7 @@ const WeatherHeader = styled.div`
 
 export const WeatherWidget = () => {
   const [activeFilter, setActiveFilter] = useState<WeatherFilters>('temp');
+  const [timeRange, setTimeRange] = useState<WeatherTimeRange>('1d');
   const [weatherForecast, setWeatherForecast] =
     useState<IWeatherForecast | null>(null);
 
@@ -35,6 +40,8 @@ export const WeatherWidget = () => {
           <WeatherControls
             activeFilter={activeFilter}
             setActiveFilter={setActiveFilter}
+            timeRange={timeRange}
+            setTimeRange={setTimeRange}
           />
         </WeatherHeader>
       )}
