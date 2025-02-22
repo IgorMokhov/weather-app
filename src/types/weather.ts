@@ -1,3 +1,5 @@
+export type WeatherTimeRange = '1d' | '3h';
+
 export type WeatherFilters =
   | 'temp'
   | 'humidity'
