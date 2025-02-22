@@ -1,3 +1,10 @@
+export type WeatherFilters =
+  | 'temp'
+  | 'humidity'
+  | 'pressure'
+  | 'windTemp'
+  | 'windSpeed';
+
 export interface ICityGeoData {
   lat: number;
   lon: number;
