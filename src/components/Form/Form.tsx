@@ -2,7 +2,6 @@ import styled from 'styled-components';
 import iconSearch from '../../assets/icons/icon-search.svg';
 import { ChangeEvent, FormEvent, useState } from 'react';
 import { getCityGeoData, getWeatherForecast } from '../../api/weatherApi';
-import { filterDailyForecast } from '../../utils/weatherUtils';
 import { IWeatherForecast } from '../../types/weather';
 
 const StyledForm = styled.form`
@@ -57,8 +56,7 @@ export const Form = ({ saveWeatherForecast }: IFormProps) => {
     try {
       const coordinates = await getCityGeoData(search);
       const weather = await getWeatherForecast(coordinates);
-      const filteredWeather = filterDailyForecast(weather);
-      saveWeatherForecast(filteredWeather);
+      saveWeatherForecast(weather);
       setError(null);
     } catch (error) {
       if (error instanceof Error) {

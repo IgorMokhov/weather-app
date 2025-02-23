@@ -5,8 +5,10 @@ import {
 } from '../types/weather';
 
 export const filterDailyForecast = (
-  weatherData: IWeatherForecast
-): IWeatherForecast => {
+  weatherData: IWeatherForecast | null
+): IWeatherForecast | null => {
+  if (!weatherData) return null;
+
   const filteredList = weatherData.list.reduce<IWeatherData[]>((acc, entry) => {
     const date = entry.dt_txt.split(' ')[0];
     const isNewNoonForecast =

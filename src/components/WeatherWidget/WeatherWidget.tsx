@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { Form } from '../Form/Form';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import {
   IWeatherForecast,
   WeatherFilters,
@@ -8,6 +8,7 @@ import {
 } from '../../types/weather';
 import { WeatherChart } from '../WeatherChart/WeatherChart';
 import { WeatherControls } from '../WeatherControls/WeatherControls';
+import { filterDailyForecast } from '../../utils/weatherUtils';
 
 const StyledSection = styled.section`
   margin-bottom: 50px;
@@ -31,6 +32,13 @@ export const WeatherWidget = () => {
   const [weatherForecast, setWeatherForecast] =
     useState<IWeatherForecast | null>(null);
 
+  const filteredWeather = useMemo(() => {
+    if (!weatherForecast) return null;
+    return timeRange === '3h'
+      ? weatherForecast
+      : filterDailyForecast(weatherForecast);
+  }, [weatherForecast, timeRange]);
+
   return (
     <StyledSection>
       <Form saveWeatherForecast={setWeatherForecast} />
@@ -45,7 +53,7 @@ export const WeatherWidget = () => {
           />
         </WeatherHeader>
       )}
-      <WeatherChart weather={weatherForecast} activeFilter={activeFilter} />
+      <WeatherChart weather={filteredWeather} activeFilter={activeFilter} />
     </StyledSection>
   );
 };
