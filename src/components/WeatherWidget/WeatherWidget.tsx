@@ -9,6 +9,7 @@ import {
 import { WeatherChart } from '../WeatherChart/WeatherChart';
 import { WeatherControls } from '../WeatherControls/WeatherControls';
 import { filterDailyForecast } from '../../utils/weatherUtils';
+import { SelectedCitiesList } from '../SelectedCitiesList/SelectedCitiesLIst';
 
 const StyledSection = styled.section`
   margin-bottom: 50px;
@@ -18,6 +19,7 @@ const StyledTitle = styled.h2`
   margin-left: 100px;
   font-size: 50px;
   font-weight: 200;
+  cursor: pointer;
 `;
 
 const WeatherHeader = styled.div`
@@ -31,6 +33,20 @@ export const WeatherWidget = () => {
   const [timeRange, setTimeRange] = useState<WeatherTimeRange>('1d');
   const [weatherForecast, setWeatherForecast] =
     useState<IWeatherForecast | null>(null);
+  const [selectedCities, setSelectedCities] = useState<IWeatherForecast[]>([]);
+
+  const toggleSelectedCity = (currentCity: IWeatherForecast) => {
+    if (!weatherForecast) return;
+
+    setSelectedCities((prev) => {
+      const isCitySelected = prev.some(
+        ({ city }) => city.name === weatherForecast?.city.name
+      );
+      return isCitySelected
+        ? prev.filter(({ city }) => city.name !== currentCity.city.name)
+        : [...prev, { ...weatherForecast }];
+    });
+  };
 
   const filteredWeather = useMemo(() => {
     if (!weatherForecast) return null;
@@ -44,7 +60,14 @@ export const WeatherWidget = () => {
       <Form saveWeatherForecast={setWeatherForecast} />
       {weatherForecast && (
         <WeatherHeader>
-          <StyledTitle>{weatherForecast?.city.name}</StyledTitle>
+          <StyledTitle onClick={() => toggleSelectedCity(weatherForecast)}>
+            {weatherForecast?.city.name}{' '}
+            {selectedCities.some(
+              (city) => city.city.name === weatherForecast.city.name
+            )
+              ? '-'
+              : '+'}
+          </StyledTitle>
           <WeatherControls
             activeFilter={activeFilter}
             setActiveFilter={setActiveFilter}
@@ -54,6 +77,10 @@ export const WeatherWidget = () => {
         </WeatherHeader>
       )}
       <WeatherChart weather={filteredWeather} activeFilter={activeFilter} />
+      <SelectedCitiesList
+        selectedCities={selectedCities}
+        toggleSelectedCity={toggleSelectedCity}
+      />
     </StyledSection>
   );
 };
