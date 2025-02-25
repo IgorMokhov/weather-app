@@ -13,16 +13,10 @@ import {
   filterDailyForecast,
 } from '../../utils/weatherUtils';
 import { SelectedCitiesList } from '../SelectedCitiesList/SelectedCitiesList';
+import { WeatherTitle } from '../WeatherTitle/WeatherTitle';
 
 const StyledSection = styled.section`
   margin-bottom: 50px;
-`;
-
-const StyledTitle = styled.h2`
-  margin-left: 100px;
-  font-size: 50px;
-  font-weight: 200;
-  cursor: pointer;
 `;
 
 const WeatherHeader = styled.div`
@@ -34,7 +28,8 @@ const WeatherHeader = styled.div`
 export const WeatherWidget = () => {
   const [activeFilter, setActiveFilter] = useState<WeatherFilters>('temp');
   const [timeRange, setTimeRange] = useState<WeatherTimeRange>('1d');
-  const [weatherForecast, setWeatherForecast] = useState<IWeatherForecast | null>(null);
+  const [weatherForecast, setWeatherForecast] =
+    useState<IWeatherForecast | null>(null);
   const [selectedCities, setSelectedCities] = useState<IWeatherForecast[]>([]);
 
   const toggleSelectedCity = (currentCity: IWeatherForecast) => {
@@ -71,14 +66,11 @@ export const WeatherWidget = () => {
       <Form saveWeatherForecast={setWeatherForecast} />
       {weatherForecast && (
         <WeatherHeader>
-          <StyledTitle onClick={() => toggleSelectedCity(weatherForecast)}>
-            {weatherForecast?.city.name}{' '}
-            {selectedCities.some(
-              (city) => city.city.name === weatherForecast.city.name
-            )
-              ? '-'
-              : '+'}
-          </StyledTitle>
+          <WeatherTitle
+            currentForecast={weatherForecast}
+            selectedCities={selectedCities}
+            toggleSelectedCity={toggleSelectedCity}
+          />
           <WeatherControls
             activeFilter={activeFilter}
             setActiveFilter={setActiveFilter}
