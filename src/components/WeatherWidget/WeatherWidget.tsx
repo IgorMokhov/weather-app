@@ -8,8 +8,11 @@ import {
 } from '../../types/weather';
 import { WeatherChart } from '../WeatherChart/WeatherChart';
 import { WeatherControls } from '../WeatherControls/WeatherControls';
-import { filterDailyForecast } from '../../utils/weatherUtils';
-import { SelectedCitiesList } from '../SelectedCitiesList/SelectedCitiesLIst';
+import {
+  extractWeatherData,
+  filterDailyForecast,
+} from '../../utils/weatherUtils';
+import { SelectedCitiesList } from '../SelectedCitiesList/SelectedCitiesList';
 
 const StyledSection = styled.section`
   margin-bottom: 50px;
@@ -31,29 +34,37 @@ const WeatherHeader = styled.div`
 export const WeatherWidget = () => {
   const [activeFilter, setActiveFilter] = useState<WeatherFilters>('temp');
   const [timeRange, setTimeRange] = useState<WeatherTimeRange>('1d');
-  const [weatherForecast, setWeatherForecast] =
-    useState<IWeatherForecast | null>(null);
+  const [weatherForecast, setWeatherForecast] = useState<IWeatherForecast | null>(null);
   const [selectedCities, setSelectedCities] = useState<IWeatherForecast[]>([]);
 
   const toggleSelectedCity = (currentCity: IWeatherForecast) => {
-    if (!weatherForecast) return;
-
     setSelectedCities((prev) => {
       const isCitySelected = prev.some(
-        ({ city }) => city.name === weatherForecast?.city.name
+        ({ city }) => city.name === currentCity?.city.name
       );
       return isCitySelected
         ? prev.filter(({ city }) => city.name !== currentCity.city.name)
-        : [...prev, { ...weatherForecast }];
+        : [...prev, { ...currentCity }];
     });
   };
 
-  const filteredWeather = useMemo(() => {
-    if (!weatherForecast) return null;
-    return timeRange === '3h'
-      ? weatherForecast
-      : filterDailyForecast(weatherForecast);
-  }, [weatherForecast, timeRange]);
+  const displayedCities = useMemo(() => {
+    if (!weatherForecast) return extractWeatherData(selectedCities);
+
+    const isCitySelected = selectedCities.some(
+      (city) => city.city.name === weatherForecast.city.name
+    );
+
+    const cities = isCitySelected
+      ? selectedCities
+      : [...selectedCities, weatherForecast];
+
+    const filteredWeather = cities.map((city) => {
+      return timeRange === '3h' ? city : filterDailyForecast(city);
+    });
+
+    return extractWeatherData(filteredWeather);
+  }, [selectedCities, weatherForecast, timeRange]);
 
   return (
     <StyledSection>
@@ -76,7 +87,7 @@ export const WeatherWidget = () => {
           />
         </WeatherHeader>
       )}
-      <WeatherChart weather={filteredWeather} activeFilter={activeFilter} />
+      <WeatherChart weatherList={displayedCities} activeFilter={activeFilter} />
       <SelectedCitiesList
         selectedCities={selectedCities}
         toggleSelectedCity={toggleSelectedCity}
