@@ -14,6 +14,7 @@ import {
 } from '../../utils/weatherUtils';
 import { SelectedCitiesList } from '../SelectedCitiesList/SelectedCitiesList';
 import { WeatherTitle } from '../WeatherTitle/WeatherTitle';
+import { Loader } from '../../UI/Loader/Loader';
 
 const StyledSection = styled.section`
   margin-bottom: 50px;
@@ -28,6 +29,7 @@ const WeatherHeader = styled.div`
 export const WeatherWidget = () => {
   const [activeFilter, setActiveFilter] = useState<WeatherFilters>('temp');
   const [timeRange, setTimeRange] = useState<WeatherTimeRange>('1d');
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [weatherForecast, setWeatherForecast] =
     useState<IWeatherForecast | null>(null);
   const [selectedCities, setSelectedCities] = useState<IWeatherForecast[]>([]);
@@ -63,25 +65,37 @@ export const WeatherWidget = () => {
 
   return (
     <StyledSection>
-      <Form saveWeatherForecast={setWeatherForecast} />
-      {weatherForecast && (
-        <WeatherHeader>
-          <WeatherTitle
-            currentForecast={weatherForecast}
-            isSelected={selectedCities.some(
-              ({ city }) => city.name === weatherForecast.city.name
-            )}
-            toggleSelectedCity={toggleSelectedCity}
-          />
-          <WeatherControls
+      <Form
+        saveWeatherForecast={setWeatherForecast}
+        setIsLoading={setIsLoading}
+      />
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <>
+          {weatherForecast && (
+            <WeatherHeader>
+              <WeatherTitle
+                currentForecast={weatherForecast}
+                isSelected={selectedCities.some(
+                  ({ city }) => city.name === weatherForecast.city.name
+                )}
+                toggleSelectedCity={toggleSelectedCity}
+              />
+              <WeatherControls
+                activeFilter={activeFilter}
+                setActiveFilter={setActiveFilter}
+                timeRange={timeRange}
+                setTimeRange={setTimeRange}
+              />
+            </WeatherHeader>
+          )}
+          <WeatherChart
+            weatherList={displayedCities}
             activeFilter={activeFilter}
-            setActiveFilter={setActiveFilter}
-            timeRange={timeRange}
-            setTimeRange={setTimeRange}
           />
-        </WeatherHeader>
+        </>
       )}
-      <WeatherChart weatherList={displayedCities} activeFilter={activeFilter} />
       <SelectedCitiesList
         selectedCities={selectedCities}
         toggleSelectedCity={toggleSelectedCity}

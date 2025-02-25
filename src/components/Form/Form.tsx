@@ -43,9 +43,10 @@ const StyledError = styled.p`
 
 interface IFormProps {
   saveWeatherForecast: (weatherForecast: IWeatherForecast) => void;
+  setIsLoading: (isLoading: boolean) => void;
 }
 
-export const Form = ({ saveWeatherForecast }: IFormProps) => {
+export const Form = ({ saveWeatherForecast, setIsLoading }: IFormProps) => {
   const [search, setSearch] = useState<string>('');
   const [error, setError] = useState<string | null>(null);
 
@@ -53,6 +54,8 @@ export const Form = ({ saveWeatherForecast }: IFormProps) => {
     e.preventDefault();
     if (!search.trim()) return;
 
+    setIsLoading(true);
+    
     try {
       const coordinates = await getCityGeoData(search);
       const weather = await getWeatherForecast(coordinates);
@@ -64,6 +67,8 @@ export const Form = ({ saveWeatherForecast }: IFormProps) => {
       } else {
         setError('An unknown error occurred');
       }
+    } finally {
+      setIsLoading(false);
     }
 
     setSearch('');
