@@ -17,6 +17,7 @@ import { WeatherTitle } from '../WeatherTitle/WeatherTitle';
 import { Loader } from '../../UI/Loader/Loader';
 
 const StyledSection = styled.section`
+  position: relative;
   margin-bottom: 50px;
 `;
 
@@ -24,6 +25,22 @@ const WeatherHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+`;
+
+const StyledClearBtn = styled.button`
+  position: absolute;
+  bottom: 77px;
+  left: 100px;
+  border: none;
+  background-color: var(--bg-color);
+  cursor: pointer;
+  color: var(--error-color);
+  font-size: 20px;
+  transition: all 0.5s;
+
+  &:hover {
+    scale: 1.2;
+  }
 `;
 
 export const WeatherWidget = () => {
@@ -69,6 +86,7 @@ export const WeatherWidget = () => {
         saveWeatherForecast={setWeatherForecast}
         setIsLoading={setIsLoading}
       />
+
       {isLoading ? (
         <Loader />
       ) : (
@@ -95,6 +113,11 @@ export const WeatherWidget = () => {
             activeFilter={activeFilter}
           />
         </>
+      )}
+      {!!selectedCities.length && (
+        <StyledClearBtn onClick={() => setSelectedCities([])}>
+          Clear all
+        </StyledClearBtn>
       )}
       <SelectedCitiesList
         selectedCities={selectedCities}
