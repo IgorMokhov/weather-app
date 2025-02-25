@@ -4,12 +4,13 @@ import { WeatherTimeRange } from '../../types/weather';
 
 const StyledLabel = styled.label`
   cursor: pointer;
+  font-size: 16px;
 `;
 
 const StyledInput = styled.input`
   cursor: pointer;
   margin-right: 10px;
-  transform: scale(1.8);
+  transform: scale(1.6);
 `;
 
 interface WeatherPeriodSwitchProps {

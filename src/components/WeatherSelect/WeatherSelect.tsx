@@ -3,13 +3,13 @@ import { WeatherFilters } from '../../types/weather';
 import { ChangeEvent } from 'react';
 
 const StyledSelect = styled.select`
-  background-color: #d9d9d9;
-  color: #524e4e;
+  background-color: var(--bg-color);
   padding: 5px;
   border-radius: 25px;
   font-size: 15px;
   outline: none;
-  border: none;
+  border: 1px solid var(--primary-color);
+  cursor: pointer;
 `;
 
 interface IWeatherSelect {

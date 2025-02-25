@@ -4,6 +4,7 @@ import { IWeatherForecast } from '../../types/weather';
 const StyledList = styled.ul`
   list-style-type: none;
   display: flex;
+  flex-wrap: wrap;
   gap: 10px;
   margin-left: 65px;
 `;
@@ -12,17 +13,18 @@ const StyledItem = styled.li`
   display: flex;
   align-items: center;
   gap: 10px;
-  background-color: #d9d9d9;
-  color: #524e4e;
+  background-color: var(--bg-color);
+  color: var(--primary-color);
   padding: 5px 20px;
   border-radius: 25px;
+  border: 1px solid var(--primary-color);
   cursor: pointer;
 
   &::after {
     content: '×';
     font-size: 24px;
     position: relative;
-    color: tomato;
+    color: var(--error-color);
   }
 `;
 

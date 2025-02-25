@@ -11,17 +11,17 @@ const StyledForm = styled.form`
 `;
 
 const StyledInput = styled.input`
-  background-color: #d9d9d9;
+  background-color: var(--bg-color);
   width: 100%;
   padding: 18px 100px;
   border-radius: 25px;
   font-size: 20px;
   outline: none;
-  border: none;
+  border: 1px solid var(--primary-color);
 
   &::placeholder {
     font-size: 20px;
-    color: #524e4e;
+    color: var(--primary-color);
     font-weight: 200;
   }
 `;
@@ -35,7 +35,7 @@ const StyledImage = styled.img`
 `;
 
 const StyledError = styled.p`
-  color: tomato;
+  color: var(--error-color);
   position: absolute;
   top: 70px;
   left: 100px;
