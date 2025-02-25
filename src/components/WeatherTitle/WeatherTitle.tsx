@@ -10,23 +10,18 @@ const StyledTitle = styled.h2`
 
 interface IWeatherTitleProps {
   currentForecast: IWeatherForecast;
-  selectedCities: IWeatherForecast[];
+  isSelected: boolean;
   toggleSelectedCity: (weather: IWeatherForecast) => void;
 }
 
 export const WeatherTitle = ({
   currentForecast,
   toggleSelectedCity,
-  selectedCities,
+  isSelected,
 }: IWeatherTitleProps) => {
   return (
     <StyledTitle onClick={() => toggleSelectedCity(currentForecast)}>
-      {currentForecast?.city.name}{' '}
-      {selectedCities.some(
-        (city) => city.city.name === currentForecast.city.name
-      )
-        ? '-'
-        : '+'}
+      {currentForecast?.city.name} {isSelected ? '-' : '+'}
     </StyledTitle>
   );
 };

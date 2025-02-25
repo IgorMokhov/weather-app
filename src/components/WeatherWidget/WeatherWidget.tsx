@@ -68,7 +68,9 @@ export const WeatherWidget = () => {
         <WeatherHeader>
           <WeatherTitle
             currentForecast={weatherForecast}
-            selectedCities={selectedCities}
+            isSelected={selectedCities.some(
+              ({ city }) => city.name === weatherForecast.city.name
+            )}
             toggleSelectedCity={toggleSelectedCity}
           />
           <WeatherControls
