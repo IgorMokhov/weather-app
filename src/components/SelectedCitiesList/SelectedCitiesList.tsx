@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { IWeatherForecast } from '../../types/weather';
 
 const StyledList = styled.ul`
   list-style-type: none;
@@ -29,8 +28,8 @@ const StyledItem = styled.li`
 `;
 
 interface ISelectedCitiesListProps {
-  selectedCities: IWeatherForecast[] | [];
-  toggleSelectedCity: (currentCity: IWeatherForecast) => void;
+  selectedCities: string[] | [];
+  toggleSelectedCity: (currentCity: string) => void;
 }
 
 export const SelectedCitiesList = ({
@@ -40,11 +39,8 @@ export const SelectedCitiesList = ({
   return (
     <StyledList>
       {selectedCities.map((city) => (
-        <StyledItem
-          onClick={() => toggleSelectedCity(city)}
-          key={city.city.name}
-        >
-          {city.city.name}
+        <StyledItem onClick={() => toggleSelectedCity(city)} key={city}>
+          {city}
         </StyledItem>
       ))}
     </StyledList>

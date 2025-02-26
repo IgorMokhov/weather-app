@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { IWeatherForecast } from '../../types/weather';
 
 const StyledTitle = styled.h2`
   margin-left: 100px;
@@ -9,19 +8,19 @@ const StyledTitle = styled.h2`
 `;
 
 interface IWeatherTitleProps {
-  currentForecast: IWeatherForecast;
+  title: string;
   isSelected: boolean;
-  toggleSelectedCity: (weather: IWeatherForecast) => void;
+  toggleSelectedCity: (nameCity: string) => void;
 }
 
 export const WeatherTitle = ({
-  currentForecast,
+  title,
   toggleSelectedCity,
   isSelected,
 }: IWeatherTitleProps) => {
   return (
-    <StyledTitle onClick={() => toggleSelectedCity(currentForecast)}>
-      {currentForecast?.city.name} {isSelected ? '-' : '+'}
+    <StyledTitle onClick={() => toggleSelectedCity(title)}>
+      {title} {isSelected ? '-' : '+'}
     </StyledTitle>
   );
 };

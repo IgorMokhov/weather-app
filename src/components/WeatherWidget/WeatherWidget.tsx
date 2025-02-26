@@ -51,14 +51,14 @@ export const WeatherWidget = () => {
     useState<IWeatherForecast | null>(null);
   const [selectedCities, setSelectedCities] = useState<IWeatherForecast[]>([]);
 
-  const toggleSelectedCity = (currentCity: IWeatherForecast) => {
+  const toggleSelectedCity = (nameCity: string) => {
+    if (!weatherForecast) return;
+
     setSelectedCities((prev) => {
-      const isCitySelected = prev.some(
-        ({ city }) => city.name === currentCity?.city.name
-      );
+      const isCitySelected = prev.some(({ city }) => city.name === nameCity);
       return isCitySelected
-        ? prev.filter(({ city }) => city.name !== currentCity.city.name)
-        : [...prev, { ...currentCity }];
+        ? prev.filter(({ city }) => city.name !== nameCity)
+        : [...prev, { ...weatherForecast }];
     });
   };
 
@@ -94,7 +94,7 @@ export const WeatherWidget = () => {
           {weatherForecast && (
             <WeatherHeader>
               <WeatherTitle
-                currentForecast={weatherForecast}
+                title={weatherForecast.city.name}
                 isSelected={selectedCities.some(
                   ({ city }) => city.name === weatherForecast.city.name
                 )}
@@ -120,7 +120,7 @@ export const WeatherWidget = () => {
         </StyledClearBtn>
       )}
       <SelectedCitiesList
-        selectedCities={selectedCities}
+        selectedCities={selectedCities.map(({ city }) => city.name)}
         toggleSelectedCity={toggleSelectedCity}
       />
     </StyledSection>
