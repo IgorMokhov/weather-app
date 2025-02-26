@@ -1,6 +1,6 @@
 # Weather App
 
-![demo](https://github.com/user-attachments/assets/355a694a-2526-4f06-b7f6-a2d9f1aad9a0")
+![demo](https://github.com/user-attachments/assets/355a694a-2526-4f06-b7f6-a2d9f1aad9a0)
 
 ## Introduction
 
